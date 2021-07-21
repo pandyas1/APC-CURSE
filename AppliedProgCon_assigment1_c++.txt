@@ -1,0 +1,159 @@
+#include <iostream>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+class User      // base class
+	{
+		protected:
+			string FirstName;       // create FirstName, LastName, ID variables
+			string LastName;
+			string ID;
+			
+		public:
+			void setFirstName(string f){FirstName=f;}       //set fucntions for base variables
+			void setLastName(string l){LastName=l;}
+			void setID(string i){ID=i;}
+			
+			string getFirstName(){return FirstName;}        // get functions for base variables
+			string getLastName(){return LastName;}
+			string getID(){return ID;}
+			
+			virtual void userInfo()     //ask user for FirstName, LastName, ID
+				{
+					cout << "Please enter your first name.\n";
+					getline(cin,FirstName);
+					cout << "Please enter your last name.\n";
+					getline(cin,LastName);
+					cout << "Please enter your Wentworth ID number (all the numbers in your ID excluding the 'W').\n";
+					getline(cin,ID);
+				}
+			virtual void printAll() {cout << FirstName << " " << LastName << ":W" << ID << ".(User has been entered)\n";} // output entered data
+			virtual void printSchedule() // print schedule fucntion
+				{
+				    cout << "printSchedule Reached \n";
+				}
+			virtual void searchCourses() // search courses function
+				{
+				    cout << "searchCourses Reached \n";
+				}
+			virtual void printRoster() // print student roster function
+				{
+				    cout << "printRoster Reached \n";
+				}
+			User(){};
+			~User(){};
+	};
+	
+class Student: public User  // Student derived class
+	{
+		private:
+		
+		public:
+			void AddDrop() // add drop function
+			    {
+			        cout << "AddDrop Reached \n";
+		    	}
+			void executeStudent()   //function to execute all student commands
+				{
+					User::userInfo();
+					User::printAll();
+					User::searchCourses();
+					User::printSchedule();
+					AddDrop();
+				}
+				
+			Student(){};
+			~Student(){};
+	};
+	
+class Instructor: public User // Instructor derived class
+	{
+		private:
+		
+		public:
+			void executeInstructor()    //function to execute all Instructor commands
+				{
+					User::userInfo();
+					User::printAll();
+					User::searchCourses();
+					User::printSchedule();
+					User::printRoster();
+				}
+		    Instructor(){};
+		    ~Instructor(){};
+	};	
+	
+class Admin: public User
+	{
+		private:
+		
+		public:
+			void addCourse() // add course function
+				{
+					cout << "addCourse Reached \n";	
+				}
+			void removeCourse() // remove course function
+				{
+					cout << "removeCourse Reached \n";	
+				}
+			void addUser() // add user function
+			    {
+			        cout << "addUser reached \n"; 
+			    }
+			void removeUser() // remove user function
+			    {
+			        cout << "removeUser reached \n";
+			    }
+			void moveStudent() // move stuent fucnction
+			    {
+			        cout << "moveStudent reached \n";
+			    }
+			void executeAdmin() //function to execute all admin commands
+				{
+					User::userInfo();
+					User::printAll();
+					User::searchCourses();
+					User::printSchedule();
+					User::printRoster();
+					addCourse();
+					removeCourse();
+					addUser();
+					removeUser();
+					moveStudent();
+					
+				}
+			Admin(){};
+			~Admin(){};
+	};
+	
+	
+int main()
+	{
+		string choice;
+		
+		Student learn;
+		Instructor teach;
+		Admin manage;
+		
+		while(choice != "exit")
+			{
+				cout << "Are you a student, instructor, or admin? Type 'exit' to leave program.\n"; // ask user what type they are
+				getline(cin, choice);
+				
+				
+				if(choice == "student") // run student functions
+					{
+						learn.executeStudent();
+					}
+				else if(choice == "instructor")  // run instructor functions
+					{
+						teach.executeInstructor();
+					}
+				else if(choice == "admin")  // run admin functions
+					{
+						manage.executeAdmin();
+					}
+			}
+	}
